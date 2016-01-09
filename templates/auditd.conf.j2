@@ -1,0 +1,52 @@
+# {{ ansible_managed }}
+{% macro render_option(key,value,indent=false) %}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     if value is sameas true %}
+{{ key }} = yes
+{%     elif value is sameas false %}
+{{ key }} = no
+{%     elif value is string or value is number %}
+{{ key }} = {{ value }}
+{%     endif %}
+{%   endif %}
+{% endmacro %}
+{% macro body_option(key,override) %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif auditd[key] is defined %}
+{%     set value = auditd[key] %}
+{%   elif auditd_defaults[key] is defined and auditd_skip_defaults != true %}
+{%     set value = auditd_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{% endmacro %}
+{{ body_option("action_mail_acct",auditd_action_mail_acct) -}}
+{{ body_option("admin_space_left",auditd_admin_space_left) -}}
+{{ body_option("admin_space_left_action",auditd_admin_space_left_action) -}}
+{{ body_option("disk_error_action",auditd_disk_error_action) -}}
+{{ body_option("disk_full_action",auditd_disk_full_action) -}}
+{{ body_option("dispatcher",auditd_dispatcher) -}}
+{{ body_option("disp_qos",auditd_disp_qos) -}}
+{{ body_option("enable_krb5",auditd_enable_krb5) -}}
+{{ body_option("flush",auditd_flush) -}}
+{{ body_option("freq",auditd_freq) -}}
+{{ body_option("krb5_key_file",auditd_krb5_key_file) -}}
+{{ body_option("krb5_principal",auditd_krb5_principal) -}}
+{{ body_option("log_file",auditd_log_file) -}}
+{{ body_option("log_format",auditd_log_format) -}}
+{{ body_option("log_group",auditd_log_group) -}}
+{{ body_option("max_log_file",auditd_max_log_file) -}}
+{{ body_option("max_log_file_action",auditd_max_log_file_action) -}}
+{{ body_option("name",auditd_name) -}}
+{{ body_option("name_format",auditd_name_format) -}}
+{{ body_option("num_logs",auditd_num_logs) -}}
+{{ body_option("priority_boost",auditd_priority_boost) -}}
+{{ body_option("space_left",auditd_space_left) -}}
+{{ body_option("space_left_action",auditd_space_left_action) -}}
+{{ body_option("tcp_client_max_idle",auditd_tcp_client_max_idle) -}}
+{{ body_option("tcp_client_ports",auditd_tcp_client_ports) -}}
+{{ body_option("tcp_listen_port",auditd_tcp_listen_port) -}}
+{{ body_option("tcp_listen_queue",auditd_tcp_listen_queue) -}}
+{{ body_option("tcp_max_per_addr",auditd_tcp_max_per_addr) -}}
+{{ body_option("use_libwrap",auditd_use_libwrap) -}}

@@ -1,0 +1,24 @@
+---
+### USER OPTIONS
+# Don't apply OS defaults when set to true
+auditd_skip_defaults: false
+# If the below is false, don't manage the service or reload the auditd
+# daemon at all
+auditd_manage_service: "{{ false if ansible_virtualization_type == 'docker' else true }}"
+# If the below is false, don't reload the audit deamon on change
+auditd_allow_reload: "{{ auditd_manage_service }}"
+# Empty dicts to avoid errors
+auditd: {}
+
+### VARS DEFAULTS
+### The following are defaults for OS specific configuration in var files in
+### this role. They should not be set by role users.
+auditd_packages: []
+auditd_config_owner: root
+auditd_config_group: root
+auditd_config_mode: "0600"
+auditd_config_file: /etc/audit/auditd.conf
+auditd_binary: /usr/sbin/auditd
+auditd_service: auditd
+auditd_defaults: {}
+auditd_os_supported: no

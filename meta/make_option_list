@@ -1,0 +1,8 @@
+#!/bin/sh
+cat 10_top.j2
+
+cat options_audit |
+  awk '{
+print "{{ body_option(\""$1"\",auditd_"$1") -}}"
+}'
+

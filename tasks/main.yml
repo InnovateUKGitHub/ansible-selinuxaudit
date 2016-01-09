@@ -1,0 +1,52 @@
+---
+- name: Set OS dependent variables
+  include_vars: "{{ item }}"
+  with_first_found:
+   - "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+   - "{{ ansible_distribution }}.yml"
+   - "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+   - "{{ ansible_os_family }}.yml"
+   - default.yml
+  tags:
+    - auditd
+
+- name: OS is supported
+  assert:
+    that: auditd_os_supported == True
+  tags:
+    - auditd
+
+- name: Installed
+  action: >
+    {{ ansible_pkg_mgr }}
+    name="{{ item }}"
+    state=installed
+  with_items: auditd_packages
+  tags:
+    - auditd
+
+- name: Configuration
+  template:
+    src: auditd.conf.j2
+    dest: "{{ auditd_config_file }}"
+    owner: "{{ auditd_config_owner }}"
+    group: "{{ auditd_config_group }}"
+    mode: "{{ auditd_config_mode }}"
+  notify: reload_auditd
+  tags:
+    - auditd
+
+- name: Service enabled and running
+  service:
+    name: "{{ auditd_service }}"
+    enabled: true
+    state: running
+  when: auditd_manage_service
+  tags:
+    - auditd
+
+- name: Register that this role has run
+  set_fact: auditd_has_run=true
+  when: auditd_has_run is not defined
+  tags:
+    - auditd

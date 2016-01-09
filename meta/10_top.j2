@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+{% macro render_option(key,value,indent=false) %}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     if value is sameas true %}
+{{ key }} = yes
+{%     elif value is sameas false %}
+{{ key }} = no
+{%     elif value is string or value is number %}
+{{ key }} = {{ value }}
+{%     endif %}
+{%   endif %}
+{% endmacro %}
+{% macro body_option(key,override) %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif auditd[key] is defined %}
+{%     set value = auditd[key] %}
+{%   elif auditd_defaults[key] is defined and auditd_skip_defaults != true %}
+{%     set value = auditd_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{% endmacro %}
