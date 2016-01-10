@@ -1,6 +1,7 @@
 ---
 auditd_packages:
-  - auditd
+  - audit
+  - selinux
   - python-selinux
 auditd_defaults:
   action_mail_acct: root
