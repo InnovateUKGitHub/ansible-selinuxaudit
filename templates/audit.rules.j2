@@ -1,0 +1,25 @@
+# {{ ansible_managed }}
+# This file contains the auditctl rules that are loaded
+# whenever the audit daemon is started via the initscripts.
+# The rules are simply the parameters that would be passed
+# to auditctl.
+#
+{% macro render_option(key,value,indent=false) %}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     for i in value %}
+{{ i }}
+{%     endfor %}
+{%   endif %}
+{% endmacro %}
+{% macro body_option(key,override) %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif audit_rules[key] is defined %}
+{%     set value = audit_rules[key] %}
+{%   elif audit_rules_defaults[key] is defined and auditd_skip_defaults != true %}
+{%     set value = audit_rules_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{% endmacro %}
+{{ body_option("ruleset",auditd_audit_rules) -}}

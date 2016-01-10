@@ -4,3 +4,11 @@
     name: "{{ auditd_service }}"
     state: reloaded
   when: auditd_allow_reload
+
+- name: regenerate_rules
+  command: "{{ augenrules_binary }}"
+  notify: reload_rules
+
+- name: reload_rules
+  command: "{{ auditctl_binary }} -R {{ audit_rules_genfile }}"
+  when: auditd_allow_reload_rules

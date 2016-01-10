@@ -45,4 +45,8 @@ syslog_defaults:
   format: string
   path: builtin_syslog
   type: builtin 
+audit_rules_defaults:
+  ruleset:
+    - "-D"
+    - "-b 320"
 auditd_os_supported: yes

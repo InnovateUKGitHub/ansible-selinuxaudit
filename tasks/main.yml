@@ -18,6 +18,17 @@
     - auditd
     - selinux
 
+- name: Audit status
+  command: /sbin/auditctl -s
+  register: auditctl_status
+  changed_when: False
+  tags:
+    - auditd
+    - selinux
+
+#- name: If audit rules are immutable
+#  when: auditctl_status.stdout.find('enabled') != 'enabled 2'
+
 - name: Installed
   action: >
     {{ ansible_pkg_mgr }}
@@ -66,6 +77,18 @@
     group: "{{ syslog_config_group }}"
     mode: "{{ syslog_config_mode }}"
   notify: reload_auditd
+  tags:
+    - auditd
+    - selinux
+
+- name: audit rules Configuration
+  template:
+    src: audit.rules.j2
+    dest: "{{ audit_rules_file }}"
+    owner: "{{ audit_rules_owner }}"
+    group: "{{ audit_rules_group }}"
+    mode: "{{ audit_rules_mode }}"
+  notify: regenerate_rules
   tags:
     - auditd
     - selinux
