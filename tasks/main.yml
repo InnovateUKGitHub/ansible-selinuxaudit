@@ -28,19 +28,31 @@
     - auditd
     - selinux
 
-- name: SELinux configuration
+- name: SELinux Configuration
   selinux: policy={{ selinux_policy }} state={{ selinux_state }}
   tags:
     - auditd
     - selinux
 
-- name: AuditD Configuration
+- name: auditd Configuration
   template:
     src: auditd.conf.j2
     dest: "{{ auditd_config_file }}"
     owner: "{{ auditd_config_owner }}"
     group: "{{ auditd_config_group }}"
     mode: "{{ auditd_config_mode }}"
+  notify: reload_auditd
+  tags:
+    - auditd
+    - selinux
+
+- name: audispd Configuration
+  template:
+    src: audispd.conf.j2
+    dest: "{{ audispd_config_file }}"
+    owner: "{{ audispd_config_owner }}"
+    group: "{{ audispd_config_group }}"
+    mode: "{{ audispd_config_mode }}"
   notify: reload_auditd
   tags:
     - auditd

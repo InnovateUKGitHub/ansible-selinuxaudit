@@ -1,4 +1,8 @@
 # {{ ansible_managed }}
+#
+# This file controls the configuration of the audit daemon
+#
+
 {% macro render_option(key,value,indent=false) %}
 {%   if value is defined %}
 {%     if indent == true %}  {% endif %}

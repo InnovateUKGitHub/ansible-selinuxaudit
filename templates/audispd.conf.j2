@@ -1,0 +1,34 @@
+# {{ ansible_managed }}
+#
+# This file controls the configuration of the audit event 
+# dispatcher daemon, audispd.
+#
+
+{% macro render_option(key,value,indent=false) %}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     if value is sameas true %}
+{{ key }} = yes
+{%     elif value is sameas false %}
+{{ key }} = no
+{%     elif value is string or value is number %}
+{{ key }} = {{ value }}
+{%     endif %}
+{%   endif %}
+{% endmacro %}
+{% macro body_option(key,override) %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif audispd[key] is defined %}
+{%     set value = audispd[key] %}
+{%   elif audispd_defaults[key] is defined and audispd_skip_defaults != true %}
+{%     set value = audispd_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{% endmacro %}
+{{ body_option("max_restarts",audispd_max_restarts) -}}
+{{ body_option("name",audispd_name) -}}
+{{ body_option("name_format",audispd_name_format) -}}
+{{ body_option("overflow_action",audispd_overflow_action) -}}
+{{ body_option("priority_boost",audispd_priority_boost) -}}
+{{ body_option("q_depth",audispd_q_depth) -}}
