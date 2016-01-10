@@ -58,6 +58,18 @@
     - auditd
     - selinux
 
+- name: audispd syslog plugin Configuration
+  template:
+    src: syslog.conf.j2
+    dest: "{{ syslog_config_file }}"
+    owner: "{{ syslog_config_owner }}"
+    group: "{{ syslog_config_group }}"
+    mode: "{{ syslog_config_mode }}"
+  notify: reload_auditd
+  tags:
+    - auditd
+    - selinux
+
 - name: Service enabled and running
   service:
     name: "{{ auditd_service }}"

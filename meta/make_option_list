@@ -13,3 +13,12 @@ cat options_audisp |
 print "{{ body_option(\""$1"\",audispd_"$1") -}}"
 }' >> ../templates/audispd.conf.j2
 
+cat 10_top_syslog.j2 > ../templates/syslog.conf.j2
+
+cat options_syslog |
+  awk '{
+print "{{ body_option(\""$1"\",syslog_"$1") -}}"
+}' >> ../templates/syslog.conf.j2
+
+
+

@@ -1,0 +1,30 @@
+# {{ ansible_managed }}
+# This file controls the configuration of the syslog plugin.
+# It simply takes events and writes them to syslog. The
+# arguments provided can be the default priority that you
+# want the events written with. And optionally, you can give
+# a second argument indicating the facility that you want events
+# logged to. Valid options are LOG_LOCAL0 through 7.
+
+{% macro render_option(key,value,indent=false) %}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     if value is sameas true %}
+{{ key }} = yes
+{%     elif value is sameas false %}
+{{ key }} = no
+{%     elif value is string or value is number %}
+{{ key }} = {{ value }}
+{%     endif %}
+{%   endif %}
+{% endmacro %}
+{% macro body_option(key,override) %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif syslog[key] is defined %}
+{%     set value = syslog[key] %}
+{%   elif syslog_defaults[key] is defined and syslog_skip_defaults != true %}
+{%     set value = syslog_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{% endmacro %}

@@ -3,6 +3,7 @@
 # Don't apply OS defaults when set to true
 auditd_skip_defaults: false
 audispd_skip_defaults: false
+syslog_skip_defaults: false
 # If the below is false, don't manage the service or reload the auditd
 # daemon at all
 auditd_manage_service: "{{ false if ansible_virtualization_type == 'docker' else true }}"
@@ -11,6 +12,7 @@ auditd_allow_reload: "{{ auditd_manage_service }}"
 # Empty dicts to avoid errors
 auditd: {}
 audispd: {}
+syslog: {}
 # SELinux variables
 selinux_policy: targeted
 selinux_state: enforcing
@@ -27,8 +29,13 @@ audispd_config_owner: root
 audispd_config_group: root
 audispd_config_mode: "0640"
 audispd_config_file: /etc/audisp/audispd.conf
+syslog_config_owner: root
+syslog_config_group: root
+syslog_config_mode: "0640"
+syslog_config_file: /etc/audisp/plugins.d/syslog.conf
 auditd_binary: /usr/sbin/auditd
 auditd_service: auditd
 auditd_defaults: {}
 audispd_defaults: {}
+syslog_defaults: {}
 auditd_os_supported: no
