@@ -6,6 +6,7 @@ Audit Daemon and SELinux Auditing
 This role configures the SELinux status, policy and Audit daemon:
 
 * By default configures the Audit daemon with the normal OS defaults.
+  And sets default SELinux policy (targeted) and state (Enforcing).
 * Can be configured by dict or simple variables
 * Supports all auditd.conf options. Templates are programmatically generated.
   (see [meta/make_option_list](meta/make_option_list))
@@ -68,6 +69,15 @@ values. e.g.:
 auditd_flush: SYNC
 ```
 
+* selinux_policy
+
+Can be set to 'targeted' or other policy. Uses libselinux-python to manage /etc/sysconfig/selinux file.
+
+* selinux_state
+
+Can be set to 'disabled', 'permissive', or 'enforcing', see previous selinux_policy.
+
+
 In all cases, booleans correctly rendered as yes and no in auditd configuration.
 
 Dependencies
@@ -82,6 +92,7 @@ Example Playbook
 ---
 - hosts: all
   vars:
+    selinux_state: permissive
     auditd:
       flush: DATA
       freq: 0
@@ -122,6 +133,8 @@ tcp_listen_queue = 5
 tcp_max_per_addr = 1
 use_libwrap = yes
 ```
+and SELinux in permissive state.
+
 
 Template Generation
 -------------------
