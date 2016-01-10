@@ -9,6 +9,9 @@ auditd_manage_service: "{{ false if ansible_virtualization_type == 'docker' else
 auditd_allow_reload: "{{ auditd_manage_service }}"
 # Empty dicts to avoid errors
 auditd: {}
+# SELinux variables
+selinux_policy: targeted
+selinux_state: enforcing
 
 ### VARS DEFAULTS
 ### The following are defaults for OS specific configuration in var files in

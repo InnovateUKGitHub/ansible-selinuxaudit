@@ -9,12 +9,14 @@
    - default.yml
   tags:
     - auditd
+    - selinux
 
 - name: OS is supported
   assert:
     that: auditd_os_supported == True
   tags:
     - auditd
+    - selinux
 
 - name: Installed
   action: >
@@ -24,8 +26,15 @@
   with_items: auditd_packages
   tags:
     - auditd
+    - selinux
 
-- name: Configuration
+- name: SELinux configuration
+  selinux: policy={{ selinux_policy }} state={{ selinux_state }}
+  tags:
+    - auditd
+    - selinux
+
+- name: AuditD Configuration
   template:
     src: auditd.conf.j2
     dest: "{{ auditd_config_file }}"
@@ -35,6 +44,7 @@
   notify: reload_auditd
   tags:
     - auditd
+    - selinux
 
 - name: Service enabled and running
   service:
@@ -44,9 +54,11 @@
   when: auditd_manage_service
   tags:
     - auditd
+    - selinux
 
 - name: Register that this role has run
   set_fact: auditd_has_run=true
   when: auditd_has_run is not defined
   tags:
     - auditd
+    - selinux
