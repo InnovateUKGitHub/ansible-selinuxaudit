@@ -89,7 +89,7 @@ Example Playbook
       max_log_file: 10
       max_log_file_action: ROTATE
   roles:
-    - role: ansible-selinuxaudit
+    - role: mstefany.auditd
 ```
 
 Results in:
