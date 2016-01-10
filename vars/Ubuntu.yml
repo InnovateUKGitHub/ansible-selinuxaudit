@@ -1,6 +1,6 @@
 ---
 auditd_packages:
-  - audit
+  - auditd
   - selinux
   - python-selinux
 auditd_defaults:
