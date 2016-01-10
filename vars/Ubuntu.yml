@@ -1,6 +1,7 @@
 ---
 auditd_packages:
   - auditd
+  - python-selinux
 auditd_defaults:
   action_mail_acct: root
   admin_space_left: 50
@@ -37,4 +38,11 @@ audispd_defaults:
   overflow_action: SYSLOG
   priority_boost: 4
   q_depth: 150
+syslog_defaults:
+  active: no
+  args: LOG_INFO
+  direction: out
+  format: string
+  path: builtin_syslog
+  type: builtin
 auditd_os_supported: yes
