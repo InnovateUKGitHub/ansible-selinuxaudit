@@ -1,8 +1,24 @@
 #!/bin/sh
-cat 10_top.j2
+cat 10_top_auditd.j2 > ../templates/auditd.conf.j2
 
 cat options_audit |
   awk '{
 print "{{ body_option(\""$1"\",auditd_"$1") -}}"
-}'
+}' >> ../templates/auditd.conf.j2
+
+cat 10_top_audispd.j2 > ../templates/audispd.conf.j2
+
+cat options_audisp |
+  awk '{
+print "{{ body_option(\""$1"\",audispd_"$1") -}}"
+}' >> ../templates/audispd.conf.j2
+
+cat 10_top_syslog.j2 > ../templates/syslog.conf.j2
+
+cat options_syslog |
+  awk '{
+print "{{ body_option(\""$1"\",syslog_"$1") -}}"
+}' >> ../templates/syslog.conf.j2
+
+
 

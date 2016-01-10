@@ -9,12 +9,14 @@
    - default.yml
   tags:
     - auditd
+    - selinux
 
 - name: OS is supported
   assert:
     that: auditd_os_supported == True
   tags:
     - auditd
+    - selinux
 
 - name: Installed
   action: >
@@ -24,8 +26,15 @@
   with_items: auditd_packages
   tags:
     - auditd
+    - selinux
 
-- name: Configuration
+- name: SELinux Configuration
+  selinux: policy={{ selinux_policy }} state={{ selinux_state }}
+  tags:
+    - auditd
+    - selinux
+
+- name: auditd Configuration
   template:
     src: auditd.conf.j2
     dest: "{{ auditd_config_file }}"
@@ -35,6 +44,31 @@
   notify: reload_auditd
   tags:
     - auditd
+    - selinux
+
+- name: audispd Configuration
+  template:
+    src: audispd.conf.j2
+    dest: "{{ audispd_config_file }}"
+    owner: "{{ audispd_config_owner }}"
+    group: "{{ audispd_config_group }}"
+    mode: "{{ audispd_config_mode }}"
+  notify: reload_auditd
+  tags:
+    - auditd
+    - selinux
+
+- name: audispd syslog plugin Configuration
+  template:
+    src: syslog.conf.j2
+    dest: "{{ syslog_config_file }}"
+    owner: "{{ syslog_config_owner }}"
+    group: "{{ syslog_config_group }}"
+    mode: "{{ syslog_config_mode }}"
+  notify: reload_auditd
+  tags:
+    - auditd
+    - selinux
 
 - name: Service enabled and running
   service:
@@ -44,9 +78,11 @@
   when: auditd_manage_service
   tags:
     - auditd
+    - selinux
 
 - name: Register that this role has run
   set_fact: auditd_has_run=true
   when: auditd_has_run is not defined
   tags:
     - auditd
+    - selinux
