@@ -103,6 +103,15 @@
     - auditd
     - selinux
 
+- name: systemd socket enabled or disabled
+  service:
+    name: "{{ auditd_systemd_socket }}"
+    enabled: "{{ auditd_systemd_socket_mask }}"
+  when: auditd_manage_systemd_socket
+  tags:
+    - auditd
+    - selinux
+
 - name: Register that this role has run
   set_fact: auditd_has_run=true
   when: auditd_has_run is not defined

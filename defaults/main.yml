@@ -7,6 +7,7 @@ syslog_skip_defaults: false
 # If the below is false, don't manage the service or reload the auditd
 # daemon at all
 auditd_manage_service: "{{ false if ansible_virtualization_type == 'docker' else true }}"
+auditd_manage_systemd_socket: false
 # If the below is false, don't reload the audit deamon on change
 auditd_allow_reload: "{{ auditd_manage_service }}"
 auditd_allow_reload_rules: "{{ auditd_allow_reload }}"
@@ -48,4 +49,5 @@ auditd_defaults: {}
 audispd_defaults: {}
 syslog_defaults: {}
 audit_rules_defaults: {}
+auditd_systemd_socket: systemd-journald-audit.socket
 auditd_os_supported: no
