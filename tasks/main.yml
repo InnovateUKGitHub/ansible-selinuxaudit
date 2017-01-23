@@ -23,7 +23,7 @@
     {{ ansible_pkg_mgr }}
     name="{{ item }}"
     state=installed
-  with_items: auditd_packages
+  with_items: "{{ auditd_packages }}"
   tags:
     - auditd
     - selinux
