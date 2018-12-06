@@ -23,7 +23,7 @@
     {{ ansible_pkg_mgr }}
     name="{{ item }}"
     state=installed
-  with_items: auditd_packages
+  with_items: "{{ auditd_packages }}"
   tags:
     - auditd
     - selinux
@@ -41,7 +41,7 @@
     owner: "{{ auditd_config_owner }}"
     group: "{{ auditd_config_group }}"
     mode: "{{ auditd_config_mode }}"
-  notify: reload_auditd
+  notify: restart_auditd
   tags:
     - auditd
     - selinux
@@ -53,7 +53,7 @@
     owner: "{{ audispd_config_owner }}"
     group: "{{ audispd_config_group }}"
     mode: "{{ audispd_config_mode }}"
-  notify: reload_auditd
+  notify: restart_auditd
   tags:
     - auditd
     - selinux
@@ -65,7 +65,7 @@
     owner: "{{ syslog_config_owner }}"
     group: "{{ syslog_config_group }}"
     mode: "{{ syslog_config_mode }}"
-  notify: reload_auditd
+  notify: restart_auditd
   tags:
     - auditd
     - selinux
