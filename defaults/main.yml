@@ -4,11 +4,12 @@
 auditd_skip_defaults: false
 audispd_skip_defaults: false
 syslog_skip_defaults: false
+
 # If the below is false, don't manage the service or reload the auditd
 # daemon at all
 auditd_manage_service: "{{ false if ansible_virtualization_type == 'docker' else true }}"
 # If the below is false, don't reload the audit deamon on change
-auditd_allow_reload: "{{ auditd_manage_service }}"
+auditd_allow_restart: "{{ auditd_manage_service }}"
 # Empty dicts to avoid errors
 auditd: {}
 audispd: {}

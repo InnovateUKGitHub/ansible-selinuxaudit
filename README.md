@@ -47,10 +47,10 @@ to enable on boot or start or reload the service.  Defaults to *True* unless
 running inside a docker container (it is assumed ansible is used during build
 phase).
 
-* auditd_allow_reload
+* auditd_allow_restart
 
-If set to False, a reload of auditd wont happen on change. This can help with
-troubleshooting. You'll need to manually reload auditd if you want to apply the
+If set to False, a restart of auditd wont happen on change. This can help with
+troubleshooting. You'll need to manually restart auditd if you want to apply the
 changed configuration. Defaults to the same value as ``auditd_manage_service``.
 
 * auditd
