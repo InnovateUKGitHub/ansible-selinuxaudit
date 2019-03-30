@@ -2,11 +2,11 @@
 - name: Set OS dependent variables
   include_vars: "{{ item }}"
   with_first_found:
-   - "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
-   - "{{ ansible_distribution }}.yml"
-   - "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
-   - "{{ ansible_os_family }}.yml"
-   - default.yml
+    - "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - default.yml
   tags:
     - auditd
     - selinux
@@ -74,7 +74,7 @@
   service:
     name: "{{ auditd_service }}"
     enabled: true
-    state: running
+    state: started
   when: auditd_manage_service
   tags:
     - auditd
